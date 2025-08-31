@@ -1,0 +1,49 @@
+# Node
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependency directories
+jspm_packages/
+
+# Editor/OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Build output
+/dist/
+/build/
+.temp/
+.tmp/
+
+# Vite
+vite.svg
+*.local
+
+# Env files
+.env
+.env.*.local
+*.env.local
+
+# Supabase
+.supabase/
+
+# Coverage and misc
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Lock files you don’t want checked in (optional; keep if you commit lockfiles)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

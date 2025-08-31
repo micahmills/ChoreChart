@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Chore Chart</title>
+    <style>
+      :root { color-scheme: light dark; }
+      html, body { height: 100%; margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; background: var(--bg, #0b0b0b); color: var(--fg, #eaeaea); }
+      body { display: grid; place-items: stretch; }
+      a { color: inherit; }
+    </style>
+  </head>
+  <body>
+    <app-root></app-root>
+    <script type="module" src="/src/app-root.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+    </script>
+  </body>
+</html>
