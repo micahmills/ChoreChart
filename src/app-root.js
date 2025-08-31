@@ -69,14 +69,12 @@ export class AppRoot extends LitElement {
       data: { session },
     } = await supabase.auth.getSession();
     this.session = session;
-    console.log(this.session);
     if (session) {
       await this.loadProfile();
       this.route = this.route === "login" ? "dashboard" : this.route;
     }
     supabase.auth.onAuthStateChange(async (_event, session) => {
       this.session = session;
-      console.log(this.session);
       if (session) {
         await this.loadProfile();
         location.hash = "#dashboard";
@@ -91,7 +89,6 @@ export class AppRoot extends LitElement {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    console.log(user);
     if (!user) return;
     const { data, error } = await supabase
       .from("users")
@@ -126,8 +123,6 @@ export class AppRoot extends LitElement {
   }
 
   render() {
-    console.log("Rendering app root");
-    console.log(this.session);
     return html`
       <main>
         ${this.route === "login"

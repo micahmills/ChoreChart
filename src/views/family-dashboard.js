@@ -64,7 +64,8 @@ export class FamilyDashboard extends LitElement {
 
   constructor() {
     super();
-    this.family = null;
+    // undefined means: not loaded yet; null means: loaded but no family
+    this.family = undefined;
     this.members = [];
   }
 
@@ -81,8 +82,6 @@ export class FamilyDashboard extends LitElement {
   }
 
   async refresh() {
-    console.log("Refreshing family dashboard");
-    console.log(this.session);
     if (!this.session) return;
     await this.ensureProfileRow();
     await this.loadFamily();
@@ -90,7 +89,6 @@ export class FamilyDashboard extends LitElement {
   }
 
   async ensureProfileRow() {
-    console.log("Ensuring profile row exists");
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -128,7 +126,6 @@ export class FamilyDashboard extends LitElement {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    console.log(user);
     await supabase
       .from("users")
       .update({ family_id: fam.id, role: "parent" })
@@ -137,11 +134,9 @@ export class FamilyDashboard extends LitElement {
   }
 
   async loadFamily() {
-    console.log("Loading family");
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    console.log(user);
     if (!user) return;
     const { data: me } = await supabase
       .from("users")
@@ -221,7 +216,7 @@ export class FamilyDashboard extends LitElement {
                 <h3>Assign Chores</h3>
                 <chore-assignment
                   .familyId=${this.family.id}
-                  .members=${this.members}
+                  .members=${/** @type {any[]} */ (this.members)}
                 ></chore-assignment>
               </section>
               <section>
@@ -238,10 +233,10 @@ export class FamilyDashboard extends LitElement {
   }
 
   render() {
-    console.log("Rendering family dashboard");
-    console.log(this.family);
-    // If no session yet, avoid showing the create-family UI prematurely
-    if (!this.session) return html`<p>Loading...</p>`;
+    // If no session or family not yet determined, show a loading state
+    if (!this.session || this.family === undefined) {
+      return html`<section><p>Loading your family…</p></section>`;
+    }
     if (!this.family) return this.renderNoFamily();
     return this.renderFamily();
   }
